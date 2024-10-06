@@ -1,0 +1,18 @@
+{
+  "name": "weathertraker",
+  "version": "1.0.0",
+  "description": "Weather application that fetches weather information And display them on UI.",
+  "main": "index.js",
+  "scripts": {
+    "test": "/backend/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.9.0",
+    "mongoose": "^8.7.0"
+  }
+}
