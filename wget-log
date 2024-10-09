@@ -1,0 +1,6 @@
+--2024-10-09 20:52:02--  https://api.openweathermap.org/data/2.5/weather?q=London
+Resolving api.openweathermap.org (api.openweathermap.org)... 146.185.152.20
+Connecting to api.openweathermap.org (api.openweathermap.org)|146.185.152.20|:443... connected.
+HTTP request sent, awaiting response... 401 Unauthorized
+
+Username/Password Authentication Failed.
