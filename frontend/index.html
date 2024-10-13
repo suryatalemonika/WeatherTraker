@@ -6,14 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Tracker</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .hourly-data {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .hourly-item {
+            text-align: center;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ddd; /* Optional styling */
+            border-radius: 5px;     /* Optional styling */
+        }
+
+        .hourly-icon {
+            width: 50px;  /* Adjust the size of the weather icon */
+            height: 50px;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
-        <!-- Input field and button for entering location -->
+        <!-- Input field and buttons for entering location -->
         <div class="location-input">
             <input type="text" id="location-input" placeholder="Enter location" class="input-field">
             <button id="get-weather-btn" class="get-weather-btn">Get Weather</button>
+            <button id="get-history-btn" class="get-history-btn" style="display: none;">Get History</button> <!-- Hidden by default -->
         </div>
         <br>
 
@@ -37,8 +59,13 @@
                 <br>
             </div>
         </div>
-    </div>
 
+        <!-- History widget (hidden by default) -->
+        <div class="history-widget" id="history-widget" style="display: none;">
+            <h3 style="text-align: center;" class="heading">Hourly Historical Weather Data</h3>
+            <div id="history-data"></div> <!-- Container for hourly data -->
+        </div>
+    </div>
 
     <script>
         document.getElementById('get-weather-btn').addEventListener('click', function () {
@@ -49,6 +76,16 @@
                 alert('Please enter a location!');
             }
         });
+
+        document.getElementById('get-history-btn').addEventListener('click', function () {
+            const location = document.getElementById('location-input').value;
+            if (location) {
+                fetchWeatherHistory(location);
+            } else {
+                alert('Please enter a location!');
+            }
+        });
+
         function fetchWeatherData(location) {
             fetch(`/weather?location=${location}`)
                 .then(response => response.json())
@@ -60,12 +97,44 @@
                     document.getElementById('location').textContent = data.location;
 
                     document.getElementById('weather-widget').style.display = 'block';
+                    document.getElementById('history-widget').style.display = 'none'; // Hide history widget
+                    document.getElementById('get-history-btn').style.display = 'block'; // Show history button
                 })
                 .catch(error => {
                     console.error('Error fetching the weather data:', error);
                 });
         }
 
+        function fetchWeatherHistory(location) {
+            const fromDate = new Date().toISOString().split('T')[0]+'T'+'00:00:00Z'; 
+            const toDate = new Date().toISOString().split('T')[0]+'T'+'23:59:59.999Z';   
+
+            fetch(`/historydata?location=${location}&from=${fromDate}&to=${toDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    const historyDataDiv = document.getElementById('history-data');
+                    historyDataDiv.innerHTML = ''; 
+                    
+                    data.forEach(entry => {
+                        console.log(entry)
+                        const entryDiv = document.createElement('div');
+                        entryDiv.className = 'hourly-item'; 
+                        entryDiv.innerHTML = `
+                            <div class="hourly-data">
+                                <img src="http://openweathermap.org/img/wn/${entry.Whether_icon}.png" alt="Weather Icon" class="hourly-icon">
+                                <p>${entry.time}</p>
+                                <p>${entry.Current_temp}°C</p>
+                            </div>
+                        `;
+                        historyDataDiv.appendChild(entryDiv);
+                    });
+
+                    document.getElementById('history-widget').style.display = 'block'; // Show history widget
+                })
+                .catch(error => {
+                    console.error('Error fetching the historical weather data:', error);
+                });
+        }
     </script>
 </body>
 

@@ -4,7 +4,7 @@
   "description": "Weather application that fetches weather information And display them on UI.",
   "main": "index.js",
   "scripts": {
-    "test": "/backend/server.js"
+    "test": "node ./backend/server.js"
   },
   "keywords": [],
   "author": "",
