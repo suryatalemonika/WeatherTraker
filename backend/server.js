@@ -4,7 +4,7 @@ const { getData } = require('./wheterData/fetch');
 const trigerscheduler = require('./config/schedulers');
 const { getDataformDb } = require('./config/gethistory');
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join('/home/developers/WeatherTraker/', 'frontend')));
 
 app.use(express.json());
