@@ -1,6 +1,6 @@
 # WeatherTraker
 Weather application that fetches weather information And display them on UI.
-This project is created using Node.js, Expressjs, and mongoDb, HTML,CSS
+This project is created using Node.js, Expressjs, mongoDb, HTML And CSS
 
 ## Getting Started
 
