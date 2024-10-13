@@ -1,29 +1,54 @@
 const axios = require('axios');
 const key = 'b5205b77e42452cf134884a136fc3470'
-const getData = (req, res) => {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=riyadh&appid=${key}&units=metric`
-    console.log(url)
-    axios.get(url).then((result) => {
-        let sunset = `${new Date(result.data.sys.sunset).getHours()}:${new Date(result.data.sys.sunset).getMinutes()}`
-        let clientres = {
-            Current_temp: result.data.main.temp,
-            Weather_description: result.data.weather[0].description,
-            Whether_icon: result.data.weather[0].icon,
-            feels_like: result.data.main.feels_like,
-            sunset: sunset,
-            location:result.data.name
-        }
-        console.log(`Response send to client : ${JSON.stringify(clientres)}`)
-        res.json(clientres);
-    }).catch((error) => {
-        res.json({ msg: `got error ${error}` })
-        console.log(`Error response form whether API error ${error}`)
-    })
+const fs = require('fs');
+const { insertData } = require('../config/insert');
+const { getDataformDb } = require('../config/gethistory');
+const getData = (flag, req, res) => {
+    let userlastlocation = req.query.location
+    if (!flag) {
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${userlastlocation}&appid=${key}&units=metric`
+        console.log(url)
+        axios.get(url).then((result) => {
+            let sunset = `${new Date(result.data.sys.sunset).getHours()}:${new Date(result.data.sys.sunset).getMinutes()}`
+            let clientres = {
+                Current_temp: result.data.main.temp,
+                Weather_description: result.data.weather[0].description,
+                Whether_icon: result.data.weather[0].icon,
+                feels_like: result.data.main.feels_like,
+                sunset: sunset,
+                location: result.data.name
+            }
+            console.log(`Response send to client : ${JSON.stringify(clientres)}`)
+            res.json(clientres);
+        }).catch((error) => {
+            res.json({ msg: `got error ${error}` })
+            console.log(`Error response form whether API flag false error ${error}`)
+        })
+    } else {
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${userlastlocation}&appid=${key}&units=metric`
+        console.log(url)
+        axios.get(url).then((result) => {
+            let sunset = `${new Date(result.data.sys.sunset).getHours()}:${new Date(result.data.sys.sunset).getMinutes()}`
+            let clientres = {
+                Current_temp: result.data.main.temp,
+                Weather_description: result.data.weather[0].description,
+                Whether_icon: result.data.weather[0].icon,
+                feels_like: result.data.main.feels_like,
+                sunset: sunset,
+                location: result.data.name,
+                time: new Date().toJSON()
+            }
+            insertData(clientres).then((res)=>{
+                console.log(`success ${JSON.stringify(res)}`)
+            }).catch((err)=>{
+                console.log(`error ${err}`)
+            })
+        }).catch((error) => {
+            console.log(`Error response form whether API error ${error}`)
+        })
+    }
 }
 
-const getDailyData = (req, res, city) => {
-    let { lat, lon } = getLatLong(city)
-}
 
 const getLatLong = (city) => {
     try {
@@ -61,6 +86,5 @@ const getLatLong = (city) => {
 }
 
 module.exports = {
-    getData,
-    getDailyData
+    getData
 }
