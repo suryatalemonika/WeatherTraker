@@ -1,12 +1,14 @@
 const { filter } = require('async');
 const dbConnect = require('./dbconnection.js');
-const getDataformDb = async (fromDate, toDate) => {
+const getDataformDb = async (location,fromDate, toDate) => {
+    console.log(location,fromDate, toDate)
     const db = await dbConnect.mongoDbConnection();
     let query = {
         time: {
             $gte: (fromDate),
             $lte: (toDate)
-        }
+        },
+        location: location
     }
     const data = await db.find(query).project({
         _id: 0, 
@@ -27,7 +29,7 @@ const getDataformDb = async (fromDate, toDate) => {
         return {
             Current_temp: e.Current_temp,
             Whether_icon: e.Whether_icon,
-            formatted_time: `${hours}:${minutes} ${ampm}` 
+            time: `${hours}:${minutes} ${ampm}` 
         };
     });
 

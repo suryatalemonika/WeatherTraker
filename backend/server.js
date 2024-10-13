@@ -14,7 +14,7 @@ app.get('/weather', (req, res) => {
 })
 
 app.get('/historydata', (req, res) => {
-    getDataformDb(req.query.from, req.query.to).then((resobj) => {
+    getDataformDb(req.query.location,req.query.from, req.query.to).then((resobj) => {
         console.log(`success res : ${JSON.stringify(resobj)}`)
         res.json(resobj);
     }).catch((err) => {

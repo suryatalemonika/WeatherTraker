@@ -1,8 +1,6 @@
 const axios = require('axios');
 const key = 'b5205b77e42452cf134884a136fc3470'
-const fs = require('fs');
 const { insertData } = require('../config/insert');
-const { getDataformDb } = require('../config/gethistory');
 const getData = (flag, req, res) => {
     let userlastlocation = req.query.location
     if (!flag) {
@@ -16,9 +14,15 @@ const getData = (flag, req, res) => {
                 Whether_icon: result.data.weather[0].icon,
                 feels_like: result.data.main.feels_like,
                 sunset: sunset,
-                location: result.data.name
+                location: result.data.name.toLowerCase(),
+                time: new Date().toJSON()
             }
             console.log(`Response send to client : ${JSON.stringify(clientres)}`)
+            insertData(clientres).then((res)=>{
+                console.log(`insertion ${JSON.stringify(res)}`)
+            }).catch((err)=>{
+                console.log(`error got : ${err}`)
+            })
             res.json(clientres);
         }).catch((error) => {
             res.json({ msg: `got error ${error}` })
@@ -35,7 +39,7 @@ const getData = (flag, req, res) => {
                 Whether_icon: result.data.weather[0].icon,
                 feels_like: result.data.main.feels_like,
                 sunset: sunset,
-                location: result.data.name,
+                location: result.data.name.toLowerCase(),
                 time: new Date().toJSON()
             }
             insertData(clientres).then((res)=>{
