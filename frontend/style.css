@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f3f4f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 350px;
+    background-color: #fbe8d2;
+    border-radius: 20px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.weather-widget {
+    text-align: center;
+}
+
+.weather-info {
+    padding: 20px;
+}
+
+.heading {
+    color: #977753;      
+}
+.temperature-container {
+    display: flex;                     /* Use flexbox to align icon and temperature */
+    align-items: center;              /* Center items vertically */
+    justify-content: center;          /* Center items horizontally */
+}
+
+.temperature {
+    font-size: 72px;                  /* Font size for temperature */
+    font-weight: bold;
+    color: #977753;                   /* Color for temperature */
+    margin-left: 10px;                /* Space between icon and temperature */
+}
+
+.description {
+    font-size: 24px;                  /* Font size for description */
+    color: #977753;                   /* Darker color for description */
+    margin-top: 10px;
+}
+
+.location {
+    font-size: 20px;                  /* Font size for location */
+    color: #977753;                   /* Blue color for location */
+}
+
+.date {
+    font-size: 16px;                  /* Font size for date */
+    color: #977753;                   /* Grey color for date */
+}
+
+.feels-like {
+    font-size: 14px;                  /* Font size for feels-like */
+    color: #977753;                   /* Orange color for feels-like */
+}
+
+.weather-details {
+    margin-top: 20px;
+}
+
+#weather-icon {
+    width: 50px;                      /* Adjust icon size */
+    height: 50px;                     /* Adjust icon size */
+    margin-right: 10px;               /* Space between icon and temperature */
+}
